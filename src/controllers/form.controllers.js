@@ -1,6 +1,6 @@
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors.js")
 const ApplyForm = require("../models/formSchema.js");
-const Contact = require("../models/contactSchema");
+const Contact = require("../models/ContactSchema");
 
 // home page tasting 
 exports.homepage = catchAsyncErrors(async (req, res, next) => {
