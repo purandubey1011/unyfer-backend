@@ -1,5 +1,6 @@
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors.js")
 const ApplyForm = require("../models/formSchema.js");
+const Contact = require("../models/contactSchema");
 
 // home page tasting 
 exports.homepage = catchAsyncErrors(async (req, res, next) => {
@@ -56,4 +57,39 @@ exports.applyFormData = catchAsyncErrors(async (req, res, next) => {
     console.error("Apply form error:", err);
     return res.status(500).json({ error: "Server error" });
   }
+});
+
+
+// =============================
+// Contact Form Submit Controller
+// =============================
+exports.submitContactForm = catchAsyncErrors(async (req, res) => {
+  const { name, mobile, email, subject, message } = req.body;
+
+  // 🛑 Required validation
+  if (!name || !email || !message) {
+    return res.status(400).json({
+      success: false,
+      error: "Name, Email and Message are required.",
+    });
+  }
+
+  const contactData = {
+    name,
+    mobile,
+    email,
+    subject,
+    message,
+  };
+
+  console.log("Contact Form Received:", contactData);
+
+  // 💾 Save to DB
+  const newContact = await Contact.create(contactData);
+
+  return res.status(200).json({
+    success: true,
+    message: "Contact form submitted successfully.",
+    data: newContact,
+  });
 });
