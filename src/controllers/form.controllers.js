@@ -93,3 +93,27 @@ exports.submitContactForm = catchAsyncErrors(async (req, res) => {
     data: newContact,
   });
 });
+
+exports.getAllApplyForms = catchAsyncErrors(async (req, res) => {
+  const applications = await ApplyForm.find().sort({ createdAt: -1 });
+
+  return res.status(200).json({
+    success: true,
+    total: applications.length,
+    data: applications,
+  });
+});
+
+
+// =============================
+// Get All Contact Forms (Admin)
+// =============================
+exports.getAllContactForms = catchAsyncErrors(async (req, res) => {
+  const contacts = await Contact.find().sort({ createdAt: -1 });
+
+  return res.status(200).json({
+    success: true,
+    total: contacts.length,
+    data: contacts,
+  });
+});

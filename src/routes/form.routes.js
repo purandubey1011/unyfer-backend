@@ -1,15 +1,27 @@
 let express = require("express");
 let router = express.Router();
-const { homepage,applyFormData, submitContactForm} = require("../controllers/form.controllers.js");
 
+const {
+  homepage,
+  applyFormData,
+  submitContactForm,
+  getAllApplyForms,
+  getAllContactForms
+} = require("../controllers/form.controllers.js");
 
-// home route
-router.route("/").get(homepage)
+// Home
+router.route("/").get(homepage);
 
-// Creator Apply Form Route
+// Apply Form
 router.route("/apply").post(applyFormData);
 
-// Contact Form Route
+// Contact Form
 router.route("/contact").post(submitContactForm);
+
+// =============================
+// Admin Routes
+// =============================
+router.route("/admin/applications").get(getAllApplyForms);
+router.route("/admin/contacts").get(getAllContactForms);
 
 module.exports = router;
