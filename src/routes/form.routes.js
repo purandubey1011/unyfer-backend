@@ -1,5 +1,6 @@
 let express = require("express");
 let router = express.Router();
+const { requireAdminAuth } = require("../middlewares/adminAuth.js");
 
 const {
   homepage,
@@ -22,12 +23,12 @@ router.route("/apply").post(applyFormData);
 router.route("/contact").post(submitContactForm);
 
 // Admin Routes
-router.route("/admin/applications").get(getAllApplyForms);
-router.route("/admin/contacts").get(getAllContactForms);
+router.route("/admin/applications").get(requireAdminAuth, getAllApplyForms);
+router.route("/admin/contacts").get(requireAdminAuth, getAllContactForms);
 
 // Zoho Campaign Routes
-router.route("/admin/zoho/lists").get(getZohoMailingLists);
-router.route("/admin/zoho/campaigns").post(createZohoCampaign);
-router.route("/admin/zoho/campaigns/:campaignKey/send").post(sendZohoCampaign);
+router.route("/admin/zoho/lists").get(requireAdminAuth, getZohoMailingLists);
+router.route("/admin/zoho/campaigns").post(requireAdminAuth, createZohoCampaign);
+router.route("/admin/zoho/campaigns/:campaignKey/send").post(requireAdminAuth, sendZohoCampaign);
 
 module.exports = router;
